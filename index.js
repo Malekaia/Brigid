@@ -13,6 +13,7 @@ export default function(allowed) {
   return function(request, response, next) {
     // Add the result to the response "locals"
     response.locals.brigid = check_request_queries(allowed, allowed_entries, request.query);
+    response.locals.brigid.length = Object.keys(request.query).length;
     // Continue to the next callback
     next();
   };

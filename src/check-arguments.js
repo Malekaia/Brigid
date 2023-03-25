@@ -1,4 +1,4 @@
-import { has_own_property, is_plain_object, is_string_array, throw_error } from "./lib.js";
+import { has_own_property, is_integer, is_plain_object, is_string_array, throw_error } from "./lib.js";
 
 // Standardise query definition shorthands
 export default function(allowed, allowed_entries) {
@@ -20,6 +20,9 @@ export default function(allowed, allowed_entries) {
     const HAS_VALUES = has_own_property(definition, "values");
     const HAS_MATCHES = has_own_property(definition, "matches");
     const HAS_UNSAFE = has_own_property(definition, "unsafe");
+    const HAS_LENGTH = has_own_property(definition, "length");
+    const HAS_LENGTH_MAX = has_own_property(definition, "length_max");
+    const HAS_LENGTH_MIN = has_own_property(definition, "length_min");
 
     // Default the "required" option to false
     if (!HAS_REQUIRED) {
@@ -58,6 +61,19 @@ export default function(allowed, allowed_entries) {
     // Ensure the "unsafe" option is a boolean
     else if (typeof definition.unsafe !== "boolean") {
       throw_error("TypeError", `Expected a value of type "boolean" for the "unsafe" option in the definition of the "${query}" query.`);
+    }
+
+    // Ensure the "length" option is a regular expression
+    if (HAS_LENGTH && is_integer(definition.length)) {
+      throw_error("TypeError", `Expected a value of type "number" (whole number / integer) for the "length" option in the definition of the "${query}" query.`);
+    }
+    // Ensure the "length_min" option is a regular expression
+    if (HAS_LENGTH_MIN && is_integer(definition.length_min)) {
+      throw_error("TypeError", `Expected a value of type "number" (whole number / integer) for the "length_min" option in the definition of the "${query}" query.`);
+    }
+    // Ensure the "length_max" option is a regular expression
+    if (HAS_LENGTH_MAX && is_integer(definition.length_max)) {
+      throw_error("TypeError", `Expected a value of type "number" (whole number / integer) for the "length_max" option in the definition of the "${query}" query.`);
     }
 
     // Prevent the "value", "values" and "test" options from being used together

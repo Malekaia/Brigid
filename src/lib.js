@@ -3,6 +3,9 @@ import process from "process";
 // Check if an object has a specific key
 export const has_own_property = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
 
+// Check if a value is an integer / whole number
+export const is_integer = value => typeof value !== "number" && (value % 1 === 0);
+
 // Check if a value is a plain object
 export const is_plain_object = value => value?.constructor === Object;
 

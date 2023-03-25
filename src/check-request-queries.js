@@ -37,6 +37,15 @@ export default function(allowed, allowed_entries, request_queries) {
     ) {
       return { error: "value", target: query };
     }
+
+    // Check to see if the value is of the correct length
+    if (
+      (has_own_property(definition, "length") && value.length != definition.length) ||
+      (has_own_property(definition, "length_min") && value.length < definition.length_min) ||
+      (has_own_property(definition, "length_max") && value.length > definition.length_max)
+    ) {
+      return { error: "length", target: query };
+    }
   }
 
   // Return no error and no target if the checks passed
